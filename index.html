@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Page Title</title>
+    <title>Page Title</title>
+    <!-- 1. Подключаем библиотеку для генерации корректно -->
+    <script src="https://jsdelivr.net"></script>
 </head>
 <body>
-<h1>Hello, World!</h1>
- <!-- 1. Подключаем библиотеку для генерации -->
-   <script src="https://jsdelivr.net"></script>
+
+    <h1>Hello, World!</h1>
+
     <!-- 2. Красивая зеленая кнопка -->
     <button onclick="generateExcel()" style="
         display: inline-block;
@@ -23,7 +25,6 @@
     <!-- 3. Сам скрипт, который создаст файл -->
     <script>
     function generateExcel() {
-        // Сюда впишите ваши данные для таблицы
         const data = [
             ["Название товара", "Количество", "Цена"],
             ["Товар 1", 5, 1200],
