@@ -1,1 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Экспорт в Excel</title>
+</head>
+<body>
 
+    <h1>Мой сайт на GitHub</h1>
+
+    <button onclick="generateExcel()" style="display: inline-block; padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; border: none; cursor: pointer;">
+        Скачать авто-отчет в Excel
+    </button>
+
+    <!-- Встроенная библиотека (работает без внешних ссылок) -->
+    <script>
+    !function(){"use strict";function e(e){return"undefined"!=typeof XLSX?XLSX:e}var t="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this;!function(e){var t=e.XLSX={};t.version="0.18.5",t.utils={book_new:function(){return{SheetNames:[],Sheets:{}}},aoa_to_sheet:function(e){var t={};return e.forEach((function(e,n){e.forEach((function(e,r){if(null!=e){var a={t:"s",v:String(e)};"number"==typeof e?a={t:"n",v:e}:"boolean"==typeof e&&(a={t:"b",v:e});var o=function(e,t){for(var n="",r=t+1;r>0;r=Math.floor((r-1)/26))n=String.fromCharCode(65+(r-1)%26)+n;return n+(e+1)}(n,r);t[o]=a}}))})),t["!ref"]="A1:"+function(e){for(var t="",n=e+1;n>0;n=Math.floor((n-1)/26))t=String.fromCharCode(65+(n-1)%26)+t;return t}(e?e.length-1:0)+e.length,t},book_append_sheet:function(e,t,n){e.SheetNames.push(n),e.Sheets[n]=t},sheet_to_csv:function(e){var t="";return Object.keys(e).forEach((function(n){"!"!==n&&(t+=e[n].v+",")})),t},sheet_to_json:function(e){return[]}},t.writeFile=function(e,t){var n=e.SheetNames,r=e.Sheets[n],a="",o="",c=0;Object.keys(r).forEach((function(e){if("!"!==e){var t=e.match(/[A-Z]+/),n=e.match(/\d+/);n!=c&&(c=n,a+=(o?o+"\n":"")),o=r[e].v,a+=o+"\t"}})),a+=o;var i=new Blob([["\xEF\xBB\xBF",a].join("")],{type:"text/xls;charset=utf-8;"}),l=document.createElement("a");l.href=URL.createObjectURL(i),l.download=t||"download.xls",document.body.appendChild(l),l.click(),document.body.removeChild(l)}}(t),t.XLSX=e(t.XLSX)}();
+    </script>
+
+    <!-- Скрипт кнопки -->
+    <script>
+function generateExcel() {
+        // 1. Исходные товары: Название, Количество, Цена
+        const products = [
+            ["Товар 1", 5, 1200],
+            ["Товар 2", 2, 3400],
+            ["Товар 3", 10, 450]
+        ];
+
+        // 2. Шапка таблицы (теперь добавляем колонку "Сумма")
+        const data = [
+            ["Название товара", "Количество", "Цена", "Сумма"]
+        ];
+
+        let totalSum = 0; // Переменная для подсчета общего итога
+
+        // 3. Цикл, который перебирает товары и считает математику
+        products.forEach(item => {
+            const name = item[0];
+            const quantity = item[1];
+            const price = item[2];
+            const rowSum = quantity * price; // Считаем сумму для этой строки
+            
+            totalSum += rowSum; // Добавляем в общую копилку
+
+            // Кладем готовую строчку в таблицу
+            data.push([name, quantity, price, rowSum]);
+        });
+
+        // 4. Добавляем финальную строку с общим итогом
+        data.push([]); // Пустая строка для красоты
+        data.push(["Итого", "", "", totalSum]);
+
+        // 5. Стандартный код генерации и скачивания (его не меняем)
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils.aoa_to_sheet(data);
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Данные");
+        XLSX.writeFile(workbook, "Отчет_с_расчетом.xls");
+    }
+</body>
+</html>
